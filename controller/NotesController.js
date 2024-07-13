@@ -52,7 +52,14 @@ module.exports.updateNotes = (req, res) => {
 };
 module.exports.updateLeave = (req, res) => {
     const { id } = req.params;
-    const { notes, status,leaveReason } = req.body;
+    const { notes, status, leaveReason, leaveStartDate, leaveEndDate } = req.body;
+
+    const updateData = { notes, status };
+    if (status === 'on leave') {
+        updateData.leaveReason = leaveReason;
+        updateData.leaveStartDate = leaveStartDate;
+        updateData.leaveEndDate = leaveEndDate;
+    }
 
     NotesModel.findByIdAndUpdate(id, { notes, status,leaveReason })
         .then(() => {

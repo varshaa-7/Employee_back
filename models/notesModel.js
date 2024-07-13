@@ -31,6 +31,14 @@ const notesSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    leaveStartDate: {
+        type: Date,
+        required: false,
+    },
+    leaveEndDate: {
+        type: Date,
+        required: false,
+    },
 });
 
 module.exports = mongoose.model("Notes", notesSchema);
