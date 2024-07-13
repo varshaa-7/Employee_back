@@ -24,9 +24,9 @@ module.exports.updateSpecificNotesDate = async (req, res) => {
 
 
 module.exports.saveNotes = (req, res) => {
-    const { notes, posts, plant, shift, status, date } = req.body;
+    const { notes, posts, plant, shift, status, date , leaveReason} = req.body;
 
-    NotesModel.create({ notes, posts, plant, shift, status, date })
+    NotesModel.create({ notes, posts, plant, shift, status, date, leaveReason })
         .then((data) => {
             console.log("Saved Successfully...");
             res.status(201).send(data);
@@ -44,6 +44,19 @@ module.exports.updateNotes = (req, res) => {
     NotesModel.findByIdAndUpdate(id, { notes, status })
         .then(() => {
             res.send("Updated Successfully...");
+        })
+        .catch((err) => {
+            console.log(err)
+            res.send({ error: err, msg: "Something went wrong!" });
+        });
+};
+module.exports.updateLeave = (req, res) => {
+    const { id } = req.params;
+    const { notes, status,leaveReason } = req.body;
+
+    NotesModel.findByIdAndUpdate(id, { notes, status,leaveReason })
+        .then(() => {
+            res.send("Reason added Successfully...");
         })
         .catch((err) => {
             console.log(err)

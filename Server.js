@@ -29,8 +29,8 @@ mongoose.connect(process.env.MONGO_URI,{
 app.use("/api", routes);
 
 
-// const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Runs every minute
-  const shiftChangeJob = schedule.scheduleJob('0 0 * * 0', async () => {  //run every sunday midnight
+const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Runs every minute
+  // const shiftChangeJob = schedule.scheduleJob('0 0 * * 0', async () => {  //run every sunday midnight
     try {
       const notesToUpdate = await NotesModel.find({ plant: { $exists: true }, shift: { $exists: true } });
       for (let note of notesToUpdate) {
@@ -54,7 +54,7 @@ app.use("/api", routes);
   try{
       const notesUp =await NotesModel.find({ plant: { $exists: true },shift: { $exists: true }, date: { $exists: true } });
       for(let note of notesUp){
-        if(((note.shift==='A') && (note.plant==='Minor' || note.plant==='Major')) || ((note.shift==='B') && (note.plant==='Minor' || note.plant==='Major'))){
+        if(((note.shift==='A') && (note.plant==='Mini' || note.plant==='Major')) || ((note.shift==='B') && (note.plant==='Mini' || note.plant==='Major'))){
           let newDate = moment(note.date).add(7, 'days').toDate(); // add 7 days
           await NotesModel.findByIdAndUpdate(note._id, { date: newDate });
         }
