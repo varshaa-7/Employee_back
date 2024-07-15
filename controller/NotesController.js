@@ -61,7 +61,7 @@ module.exports.updateLeave = (req, res) => {
         updateData.leaveEndDate = leaveEndDate;
     }
 
-    NotesModel.findByIdAndUpdate(id, { notes, status,leaveReason })
+    NotesModel.findByIdAndUpdate(id, { notes, status,leaveReason, leaveStartDate, leaveEndDate })
         .then(() => {
             res.send("Reason added Successfully...");
         })
