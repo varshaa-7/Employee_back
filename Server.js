@@ -10,18 +10,14 @@ const app= express();
 const PORT = process.env.PORT || 5000
 
 const NotesModel = require("./models/notesModel");
-const { updateNotesDate,updateSpecificNotesDate } = require("./controller/NotesController");
+// const { updateNotesDate,updateSpecificNotesDate } = require("./controller/NotesController");
 
 //MIDDLEWARE
 app.use(express.json())
 app.use(cors())
 
 
-mongoose.connect(process.env.MONGO_URI,{
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(()=> console.log("MongoDB connected..."))
 .catch((err)=> console.log(err))
 
@@ -29,8 +25,8 @@ mongoose.connect(process.env.MONGO_URI,{
 app.use("/api", routes);
 
 
-const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Runs every minute
-  // const shiftChangeJob = schedule.scheduleJob('0 0 * * 0', async () => {  //run every sunday midnight
+// const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Runs every minute
+  const shiftChangeJob = schedule.scheduleJob('0 0 * * 0', async () => {  //run every sunday midnight
     try {
       const notesToUpdate = await NotesModel.find({ plant: { $exists: true }, shift: { $exists: true } });
       for (let note of notesToUpdate) {
@@ -50,7 +46,7 @@ const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Run
     }
   });
   // const dateUpdate = schedule.scheduleJob('*/1 * * * *', async () =>{   //1 min
-  const dateUpdate = schedule.scheduleJob('0 0 * * 0', async () =>{     //every sunday midnighgt
+   const dateUpdate = schedule.scheduleJob('0 0 * * 0', async () =>{     //every sunday midnighgt
   try{
       const notesUp =await NotesModel.find({ plant: { $exists: true },shift: { $exists: true }, date: { $exists: true } });
       for(let note of notesUp){
@@ -97,7 +93,7 @@ const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Run
 //     }
 // };
 
-  const updateNotesDateJob = schedule.scheduleJob('0 0 * * 0', updateNotesDate);
-  const updateSpecificNotesDateJob = schedule.scheduleJob('0 0 * * *', updateSpecificNotesDate); // Runs every day at midnight
+  // const updateNotesDateJob = schedule.scheduleJob('0 0 * * 0', updateNotesDate);
+  // const updateSpecificNotesDateJob = schedule.scheduleJob('0 0 * * *', updateSpecificNotesDate); // Runs every day at midnight
 
 app.listen(PORT,()=> console.log(`Listening at ${PORT}...`));

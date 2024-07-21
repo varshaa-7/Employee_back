@@ -5,7 +5,7 @@ module.exports.getNotes = async (req, res) => {
     res.send(notes);
 };
 
-module.exports.updateSpecificNotesDate = async (req, res) => {
+module.exports.updateSpecificNotesDate = async () => {
     try {
         const specificPosts = ["Maintenance", "Safety", "CSH", "Block Loading", "Emergency Duty"];
         const todayDate = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
@@ -24,9 +24,9 @@ module.exports.updateSpecificNotesDate = async (req, res) => {
 
 
 module.exports.saveNotes = (req, res) => {
-    const { notes, posts, plant, shift, status, date , leaveReason} = req.body;
+    const { notes, posts, plant, shift, status, date , leaveReason,leaveStartDate,leaveEndDate} = req.body;
 
-    NotesModel.create({ notes, posts, plant, shift, status, date, leaveReason })
+    NotesModel.create({ notes, posts, plant, shift, status, date, leaveReason,leaveStartDate,leaveEndDate })
         .then((data) => {
             console.log("Saved Successfully...");
             res.status(201).send(data);
@@ -84,16 +84,16 @@ module.exports.deleteNotes = (req, res) => {
         });
 };
 
-module.exports.updateNotesDate = async () => {
-    try {
-        const notes = await NotesModel.find();
-        for (let note of notes) {
-            let newDate = new Date(note.date);
-            newDate.setDate(newDate.getDate() + 7); // Add 7 days to the current date
-            await NotesModel.findByIdAndUpdate(note._id, { date: newDate });
-        }
-        console.log("Dates updated successfully.");
-    } catch (err) {
-        console.error("Error updating dates:", err);
-    }
-};
+// module.exports.updateNotesDate = async () => {
+//     try {
+//         const notes = await NotesModel.find();
+//         for (let note of notes) {
+//             let newDate = new Date(note.date);
+//             newDate.setDate(newDate.getDate() + 7); // Add 7 days to the current date
+//             await NotesModel.findByIdAndUpdate(note._id, { date: newDate });
+//         }
+//         console.log("Dates updated successfully.");
+//     } catch (err) {
+//         console.error("Error updating dates:", err);
+//     }
+// };

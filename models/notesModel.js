@@ -7,7 +7,7 @@ const notesSchema = new mongoose.Schema({
     },
     posts:{
         type:String,
-        required:true,
+        required:false,
     },
     plant: {
         type: String,
@@ -25,7 +25,7 @@ const notesSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true,
+        required: false,
     },
     leaveReason: {
         type: String,
