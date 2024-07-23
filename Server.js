@@ -69,7 +69,7 @@ app.use("/api", routes);
     try{
       const notestoUp =await NotesModel.find({ posts: { $exists: true }, date: { $exists: true } });
       for(let note of notestoUp){
-        if((note.posts==='Maintenance') || (note.posts==='Safety') || (note.posts==='Capital') || (note.posts==='Store') || (note.posts==='Emergency Duty') ||( note.posts==='LIC') || ( note.posts==='SIC') ||( note.posts==='Bulk Loading') ){
+        if((note.posts==='Maintenance') || (note.posts==='Safety') || (note.posts==='Capital') || (note.posts==='Store') || (note.posts==='Emergency Duty') ||( note.posts==='LIC') || ( note.posts==='SIC') ||( note.posts==='Bulk Loading')||( note.posts==='Second Incharge') ){
           let newDate = moment(note.date).add(1, 'days').toDate(); // Add 1 day to the current date
           // console.log(`Updating note ${note._id} from ${note.date} to ${newDate}`);
           await NotesModel.findByIdAndUpdate(note._id, { date: newDate });
