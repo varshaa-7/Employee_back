@@ -24,9 +24,9 @@ module.exports.updateSpecificNotesDate = async () => {
 
 
 module.exports.saveNotes = (req, res) => {
-    const { notes, posts, plant, shift, status, date , leaveReason,leaveStartDate,leaveEndDate} = req.body;
+    const { notes, posts, plant, shift, status, date , leaveReason,leaveStartDate,leaveEndDate,inst} = req.body;
 
-    NotesModel.create({ notes, posts, plant, shift, status, date, leaveReason,leaveStartDate,leaveEndDate })
+    NotesModel.create({ notes, posts, plant, shift, status, date, leaveReason,leaveStartDate,leaveEndDate,inst })
         .then((data) => {
             console.log("Saved Successfully...");
             res.status(201).send(data);

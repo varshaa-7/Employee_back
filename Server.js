@@ -27,6 +27,7 @@ app.use("/api", routes);
 
 // const shiftChangeJob = schedule.scheduleJob('*/1 * * * *', async () => {  // Runs every minute
   const shiftChangeJob = schedule.scheduleJob('0 0 * * 0', async () => {  //run every sunday midnight
+  // const shiftChangeJob = schedule.scheduleJob('0 0 * * *', async () =>{       //everyday midnight
     try {
       const notesToUpdate = await NotesModel.find({ plant: { $exists: true }, shift: { $exists: true } });
       for (let note of notesToUpdate) {
@@ -47,10 +48,11 @@ app.use("/api", routes);
   });
   // const dateUpdate = schedule.scheduleJob('*/1 * * * *', async () =>{   //1 min
    const dateUpdate = schedule.scheduleJob('0 0 * * 0', async () =>{     //every sunday midnighgt
+    // const dateUpdate = schedule.scheduleJob('0 0 * * *', async () =>{       //everyday midnight
   try{
-      const notesUp =await NotesModel.find({ plant: { $exists: true },shift: { $exists: true }, date: { $exists: true } });
+      const notesUp =await NotesModel.find({ posts: { $exists: true }});
       for(let note of notesUp){
-        if(((note.shift==='A') && (note.plant==='Mini' || note.plant==='Major')) || ((note.shift==='B') && (note.plant==='Mini' || note.plant==='Major'))){
+        if((note.posts==='Floor Officer') || (note.posts==='Officer')){
           let newDate = moment(note.date).add(7, 'days').toDate(); // add 7 days
           await NotesModel.findByIdAndUpdate(note._id, { date: newDate });
         }
@@ -67,7 +69,7 @@ app.use("/api", routes);
     try{
       const notestoUp =await NotesModel.find({ posts: { $exists: true }, date: { $exists: true } });
       for(let note of notestoUp){
-        if((note.posts==='Maintenance') || (note.posts==='Safety') || (note.posts==='CSH') || (note.posts==='Block Loading') || (note.posts==='Emergency Duty')){
+        if((note.posts==='Maintenance') || (note.posts==='Safety') || (note.posts==='Capital') || (note.posts==='Store') || (note.posts==='Emergency Duty') ||( note.posts==='LIC') || ( note.posts==='SIC') ||( note.posts==='Bulk Loading') ){
           let newDate = moment(note.date).add(1, 'days').toDate(); // Add 1 day to the current date
           // console.log(`Updating note ${note._id} from ${note.date} to ${newDate}`);
           await NotesModel.findByIdAndUpdate(note._id, { date: newDate });

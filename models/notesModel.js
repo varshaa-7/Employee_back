@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const notesSchema = new mongoose.Schema({
     notes:{
         type:String,
-        required: true,
+        required: false,
     },
     posts:{
         type:String,
@@ -38,6 +38,10 @@ const notesSchema = new mongoose.Schema({
     leaveEndDate: {
         type: Date,
         required: false,
+    },
+    inst:{
+        type:String,
+        required:false,
     },
 });
 
